@@ -66,3 +66,9 @@ Cull another way to get this even palette at 90 degree increments.
 |     6 |     1 |    90 |   101 |    90 | `SpringGreen`
 |    11 |     2 |   178 |   207 |   180 | `Blue`
 |    14 |     3 |   263 |   283 |   270 | `DeepPink`
+
+```
+$csp = ["Gold", "SpringGreen", "Blue", "DeepPink"];
+$csp = ["Gold", "Lime", "Aqua", "Blue", "Fuchsia", "Red"];
+$csp = ["Gold", "Chartreuse", "Lime", "SpringGreen", "Aqua", "DodgerBlue", "Blue", "DarkViolet", "Fuchsia", "DeepPink", "Red", "OrangeRed"];
+```
