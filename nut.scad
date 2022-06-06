@@ -1,212 +1,120 @@
-/** # Guitar Nut
-
-    Let the $x$ axis go along the neck,
-    growing from the bridge to the nut.
-    Let the $y$ axis go across the neck,
-    growing from the first (highest) string to the last (lowest) one.
-    Let the $z$ axis go through the neck,
-    growing from the heel to the fretboard.
-
-    We measured the worn nut on the guitar.
-
-    The strings are numbered as follows.
-    According to Strings by Mail,
-    strings have the following dimensions.
-    We have Augustine Concert Blue (High Tension) and
-    Augustine Concert Black (Low Tension) strings.
-
-    |     String     |   Specification |  Measurement |
-    | Ordinal | Note |   Blue |  Black | Blue | Black |
-    |--------:|:-----|-------:|-------:|-----:|------:|
-    |       1 | E4   | 0.7112 | 0.7112 |  0.7 |   0.7 |
-    |       2 | B3   | 0.8128 | 0.8128 |  0.8 |   0.8 |
-    |       3 | G3   | 1.0160 | 1.0160 |  1.0 |   1.0 |
-    |       4 | D3   | 0.7747 | 0.7239 |  0.7 |   0.7 |
-    |       5 | A2   | 0.9144 | 0.8255 |  0.9 |   0.9 |
-    |       6 | E2   | 1.1430 | 1.1049 |  1.1 |   1.1 |
-
-    We could call the things *groove* or *slot*.
-    By default, quantities have uncertainties of 0.1.
-
-    ```
-                 2.2++
-                 |--|
-                 |  |
-        -------- ,--.
-        |        |   . --------
-    8.8 |     -- ,-. |        |
-        | 6.8+|  |  `. --     | 5.6++
-        |     |  |   |  | 5.6+|
-    z   -------- +---+ --------
-    ^            |   |
-    |            |---|
-    +--> x        5.4
-    ```
-
-    The quantities marked with `+` have uncertainties of 0.2 and
-    the quantities marked with `++` have uncertainties of 0.8.
-
-    ```
-             3.8   7.4     7.4       7.4   7.4     7.4       3.8
-            |---| |---|   |---|     |---| |---|   |---|     |---|
-            |   | |   |   |   |     |   | |   |   |   |     |   |
-            ,---. ,---.   ,---.     ,---. ,---.   ,---.     ,---.
-            |   | |   |   |   |     |   | |   |   |   |     |   |
-            |   `-'   `---'   `-----'   `-'   `---'   `-----'   |
-            +---------------------------------------------------+
-            |   | |   |   |   |     |   | |   |   |   |     |   |
-            |   |-|   |---|   |-----|   |-|   |---|   |-----|   |
-    z       |   0.7    0.8      1.0     0.7    0.9      1.1     |
-    ^       |                                                   |
-    |       |---------------------------------------------------|
-    +--> y                          50.0
-    ```
-
-    The small quantities sum up to 49.8.
-
-    ```
-               /.
-              /  `-.
-             /.     `-.
-            /  `-.     `-.  128+
-           /.     `-. 92+ `-.
-          /  `-. 58+ `-.     `-.
-        ,-.     `-.     `-.     `-.
-    ----| |-.      `/      `/      `/
-    ----+-+--`-.---/-. ----/-------/----------------
-                >-.   `-. /       /  | 36++ |      |
-    -----.      |o|`-.   /-. ----/----      | 46++ |
-          `-.   `-'   >-.   `-. /           |      | 56++
-             `-.      |o|`-.   /-. ----------      |
-                `-.   `-'   >-.   `-.              |
-                   `-.      |o|      `, ------------
-    z                 `-.   `-'      /
-    ^                    `-.        /
-    |                       `-.    /
-    +--> x                     `-.'
-    ```
-
-    The quantities marked with `+` have uncertainties of 2 and
-    the quantities marked with `++` have uncertainties of 8. */
-
-$e = 1e-3;
+$e = 0.01;
 $fn = 16;
-$csi = 0;
 
 use <functions.scad>
 use <shapes.scad>
 
-// Height of the nut (perpendicular to the neck).
-h = 8.7;
-// Depth of the nut (along the neck).
-d = 5.3;
-// Radius of curvature of the rounded edge (towards the tuners).
-r = h - 5.4;
-// Radius of curvature of the rounded sides.
-rs = 1.6;
-// Radius of curvature of the other rounded edge (towards the neck).
-rn = 0.8;
-// Cut depth of slots on the sharp edge.
-cutdepth_worn = h - 5.8;
-// We add leeway to accommodate wear.
-cutdepth = h - (5.8 + 0.5);
-// Width of the nut (same as the width of the neck).
-w_trial = 50.0;
-// The width of the printed version is 50.0 wide,
-// but still seems to be 1.0 too narrow on both sides.
-// We add leeway to correct for this.
-w = 50.0 + 2.0;
-// Distances of the first and last slots from the edges.
-// we = 3.8;
-// Distance between slots.
-// Here 8 would probably be nicer (it divides 48).
-di = 7.4;
-// String widths from highest to lowest string.
-sds = [0.7112, 0.8128, 1.016, 0.7747, 0.9144, 1.143];
-// Wiggle room.
-dwiggle = 0.1;
-// Slot widths from highest to lowest string.
-dds = [for (d = sds) dwiggle + d];
-ads = cumsum(dds);
-// Number of slots.
-nslot = len(dds);
-// Distances of the first and last slots from the edges.
-we = (w - ads[nslot] - di * (nslot - 1)) / 2;
-echo(we = we);
-assert(we >= 0, "Grooves are wider than they should be!");
-// Angle at which the lowest and highest strings turn to the tuner.
-alpha0 = atan2(36, 58);
-// Angle at which the second and fourth strings turn to the tuner.
-alpha1 = atan2(46, 92);
-// Angle at which the two middle strings turn to the tuner.
-alpha2 = atan2(56, 128);
-alphas = [alpha0, alpha1, alpha2, alpha2, alpha1, alpha0];
-// Maximum angle at which the strings turn to the tuner.
-echo(alphas = alphas);
-assert(max(alphas) < 90, "Grooves turn more than they should!");
-// Radius of curvature of the bottom of each slot.
-rcs = [for (alpha = alphas) d / sin(alpha)];
+/// Depth of the part (along the neck).
+x_part = 5.4;
+/// Width of the part (across the neck).
+y_part = 50.0 + 1.4;
+/// Height of the part (through the neck).
+/// TODO Try to drop this by 0.4 to adjust the action.
+z_part = 8.8 - 0.4;
 
-module bulk() {
-  cube([d, w, h]);
+/// How much shallower the grooves should be to account for wear.
+z_extra = 0.5;
+/// Depths of the grooves on the sharp edge (with room to accommodate wear).
+z_groove = 3.0 - z_extra;
+echo(z_groove = z_groove);
+assert(z_groove < z_part,
+    "Grooves are deeper than they should be!");
+/// How much fitting room the strings should have.
+d_extra = 0.1;
+/// Diameters of the strings.
+d_strings = [0.7112, 0.8128, 1.016, 0.7747, 0.9144, 1.143];
+/// Widths of the grooves (with room to accommodate fitting).
+y_grooves = [for (d_string = d_strings) d_extra + d_string];
+echo(y_grooves = y_grooves);
+/// Cumulative widths of the grooves.
+y_grooves_sum = cumsum(y_grooves);
+/// Distances between the grooves.
+y_steps = rep(len(y_grooves) - 1, 7.4);
+assert(1 + len(y_steps) == len(y_grooves),
+    "Grooves are more or less numerous than they should be!");
+/// Cumulative distances between the grooves.
+y_steps_sum = cumsum(y_steps);
+/// Distance between the first (and last) groove and the edge.
+y_edge = (y_part - y_grooves_sum[len(y_grooves)]
+    - y_steps_sum[len(y_grooves) - 1]) / 2;
+echo(y_edge = y_edge);
+assert(y_edge >= 0,
+    "Grooves are wider than they should be!");
+
+/// Angles at which the strings turn
+/// from the neck towards their anchoring points.
+alpha_anchors = [asin(34 / 58), asin(42 / 94), asin(48 / 128)];
+/// Angles at which the grooves turn.
+alpha_grooves = concat(alpha_anchors, rev(alpha_anchors));
+echo(alpha_grooves = alpha_grooves);
+assert(max(alpha_grooves) < 90,
+    "Grooves turn more than they should!");
+/// Radii of curvature of the grooves.
+r_grooves = [for (alpha_groove = alpha_grooves) x_part / sin(alpha_groove)];
+echo(r_grooves = r_grooves);
+/// Radius of curvature of the round edge (farther away from the neck).
+r_anchor = z_part - 5.6;
+echo(r_anchor = r_anchor);
+/// Radius of curvature of the sharp edge (closer to the neck).
+r_neck = 0.8;
+/// Radii of curvature of the sides.
+r_side = 1.6;
+assert(r_anchor + r_neck < x_part && 2 * r_side < y_part,
+    "Fillets are larger than they should be!");
+
+module block() {
+  cube([x_part, y_part, z_part]);
 }
 
-module removed_quad(r) {
-  translate([0, - $e, 0])
-    cube([$e + r, 2 * $e + w, $e + r]);
-}
-
-module round_shaping(r) {
-  translate([0, - 2 * $e, 0])
-    rotate([- 90, 0, 0])
-    cylinder(4 * $e + w, r, r);
-}
-
-module cut_out(r) {
+module fillet(r) {
   translate([- r, 0, - r])
     difference() {
-      removed_quad(r);
-      round_shaping(r);
+      translate([0, - $e, 0])
+        cube([$e + r, 2 * $e + y_part, $e + r]);
+      translate([0, - 2 * $e, 0])
+        rotate([- 90, 0, 0])
+        cylinder(4 * $e + y_part, r, r);
     }
 }
 
-module uncut_diamond() {
+module filleted_block() {
   difference() {
-    bulk();
-    translate([d, 0, h])
-      cut_out(r);
-    translate([0, 0, h])
+    block();
+    translate([x_part, 0, z_part])
+      fillet(r_anchor);
+    translate([0, 0, z_part])
       mirror([1, 0, 0])
-      cut_out(rn);
-    translate([0, 0, h])
+      fillet(r_neck);
+    translate([0, 0, z_part])
       rotate([0, 0, - 90])
-      cut_out(rs);
-    translate([0, w, h])
+      fillet(r_side);
+    translate([0, y_part, z_part])
       mirror([0, 1, 0])
       rotate([0, 0, - 90])
-      cut_out(rs);
+      fillet(r_side);
   }
 }
 
-module cutting_plane(i) {
-  let (d = dds[i], rc = rcs[i])
-    translate([0, 0, h - rc + d])
-    // This rotation is here just to accommodate low values of `$fn`.
+module grooves(i) {
+  let (y_groove = y_grooves[i], r_groove = r_grooves[i])
+    translate([0, 0, z_part - r_groove + y_groove])
+    /// This rotation is here just to accommodate low values of `$fn`.
     rotate([0, 180 / $fn, 0])
     rotate([90, 0, 0]) {
-      translate([0, 0, - d])
-        hollow_cylinder(2 * d, rc, h + rc);
-      torus(rc, d);
+      translate([0, 0, - y_groove])
+        hollow_cylinder(2 * y_groove, r_groove, z_part + r_groove);
+      torus(r_groove, y_groove);
     }
 }
 
-module done() {
-  difference () {
-    uncut_diamond();
-    for (i = [0 : nslot - 1])
-      translate([0, we + di * i + ads[i] + dds[i] / 2, - cutdepth])
-      cutting_plane(i);
+module grooved_filleted_block() {
+  difference() {
+    filleted_block();
+    for (i = [0 : len(y_grooves) - 1])
+      translate([0, y_edge + y_grooves_sum[i]
+          + y_steps_sum[i] + y_grooves[i] / 2, - z_groove])
+        grooves(i);
   }
 }
 
-done();
+grooved_filleted_block();
