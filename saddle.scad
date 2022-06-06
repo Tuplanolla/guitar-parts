@@ -67,14 +67,14 @@ module block() {
   cube([x_part, y_part, z_part]);
 }
 
-module fillet(r) {
+module fillet(r, a) {
   translate([- r, 0, - r])
     difference() {
       translate([0, - $e, 0])
-        cube([$e + r, 2 * $e + y_part, $e + r]);
+        cube([$e + r, 2 * $e + a, $e + r]);
       translate([0, - 2 * $e, 0])
         rotate([- 90, 0, 0])
-        cylinder(4 * $e + y_part, r, r);
+        cylinder(4 * $e + a, r, r);
     }
 }
 
@@ -82,25 +82,25 @@ module filleted_block() {
   difference() {
     block();
     translate([x_part, 0, z_part])
-      fillet(r_anchor);
+      fillet(r_anchor, y_part);
     translate([0, 0, z_part])
       mirror([1, 0, 0])
-      fillet(r_neck);
+      fillet(r_neck, y_part);
     translate([0, 0, z_part])
       rotate([0, 0, - 90])
-      fillet(r_side);
+      fillet(r_side, x_part);
     translate([0, y_part, z_part])
       mirror([0, 1, 0])
       rotate([0, 0, - 90])
-      fillet(r_side);
+      fillet(r_side, x_part);
   }
 }
 
-module grooves(i) {
+module groove(i) {
   let (y_groove = y_grooves[i], r_groove = r_grooves[i])
-    let (h = y_groove, r0 = r_groove, r1 = z_part + r_groove)
-    translate([0, 0, z_part + h - r0])
+    translate([0, 0, z_part + y_groove - r_groove])
     rotate([90, 0, 0])
+    let (h = y_groove, r0 = r_groove, r1 = z_part + r_groove)
     difference() {
       /// This rotation is here just to accommodate low values of `$fn`.
       rotate([0, 0, 180 / $fn]) {
@@ -123,7 +123,7 @@ module grooved_filleted_block() {
     for (i = [0 : len(y_grooves) - 1])
       translate([0, y_edge + y_grooves_sum[i]
           + y_steps_sum[i] + y_grooves[i] / 2, - z_groove])
-        grooves(i);
+        groove(i);
   }
 }
 

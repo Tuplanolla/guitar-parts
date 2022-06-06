@@ -1,3 +1,15 @@
+// The invocation `rep(n, v, a)` produces `n` repetitions
+// of the elements of the vector `v`,
+// starting from the accumulator value `a`.
+function rep(n, v, a = []) =
+  0 < n ? rep(n - 1, v, concat(v, a)) : a;
+
+// The invocation `rev(v, i, a)` reverses the order
+// of the elements of the vector `v`,
+// starting from the index `i` and the accumulator value `a`.
+function rev(v, i = 0, a = []) =
+  i < len(v) ? rev(v, 1 + i, concat([v[i]], a)) : a;
+
 // The invocation `sum(v, i, a)` yields the sum
 // of the elements of the vector `v`,
 // starting from the index `i` and the accumulator value `a`.
