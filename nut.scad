@@ -22,7 +22,7 @@ assert(z_groove < z_part,
 /// How much fitting room the strings should have.
 d_extra = 0.1;
 /// Diameters of the strings.
-d_strings = [0.7112, 0.8128, 1.016, 0.7747, 0.9144, 1.143];
+d_strings = [0.7112, 0.8128, 1.0160, 0.7747, 0.9144, 1.1430];
 /// Widths of the grooves (with room to accommodate fitting).
 y_grooves = [for (d_string = d_strings) d_extra + d_string];
 echo(y_grooves = y_grooves);
