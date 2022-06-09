@@ -42,10 +42,13 @@ with the exception of measurements marked with
 * `+` to indicate an uncertainty of `0.2`,
 * `+2` to indicate an uncertainty of `0.4`,
 * `+3` to indicate an uncertainty of `0.8`,
-* `+4` to indicate an uncertainty of `1.6`,
-* `+5` to indicate an uncertainty of `3.2`,
+* `+4` to indicate an uncertainty of `1.6` (actually rounded up to `2`),
+* `+5` to indicate an uncertainty of `3.2` (actually rounded up to `4`),
 * ...
-* `+n` to indicate an uncertainty of `0.1 * 2 ^ n`.
+* `+n` to indicate an uncertainty of `0.1 * 2 ^ n`
+  (actually rounded up to `let x = 0.1 * 2 ^ n in
+  let r = 10 ^ (floor (log10 (x))) in
+  r * ceil (x / r)`).
 
 ## Nut
 

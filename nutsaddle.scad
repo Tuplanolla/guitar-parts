@@ -67,4 +67,3 @@ module grooved_filleted_block(x_part, y_part, z_part,
           groove(z_part, y_grooves, r_grooves, i);
     }
 }
-
