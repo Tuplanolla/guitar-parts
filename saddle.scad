@@ -9,15 +9,19 @@ x_part = 2.8;
 /// Width of the part (across the neck).
 y_part = 76.8 + 0.2;
 /// Height of the part (through the neck).
-/// We adjust this to adjust the action.
+/// We reduce this to adjust the action.
 z_part = 8.0 - 1.8;
+/// Depth of the hole that keeps the part in place.
+z_hole = 5.0;
+assert(z_hole < z_part,
+    "Part is shorter than it should be!");
 
 /// How much shallower the grooves should be to account for wear.
 z_extra = 0.0;
 /// Depths of the grooves on the sharp edge (with room to accommodate wear).
 z_groove = 0.5 - z_extra;
 echo(z_groove = z_groove);
-assert(z_groove < z_part,
+assert(z_hole + z_groove < z_part,
     "Grooves are deeper than they should be!");
 /// How much fitting room the strings should have.
 d_extra = 0.1;
