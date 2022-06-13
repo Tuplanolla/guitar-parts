@@ -9,8 +9,8 @@ x_part = 2.8;
 /// Width of the part (across the neck).
 y_part = 76.8 + 0.2;
 /// Height of the part (through the neck).
-/// TODO Try to drop this by 3.6 to adjust the action.
-z_part = 8.0 - 3.6;
+/// We adjust this to adjust the action.
+z_part = 8.0 - 1.8;
 
 /// How much shallower the grooves should be to account for wear.
 z_extra = 0.0;
@@ -20,18 +20,16 @@ echo(z_groove = z_groove);
 assert(z_groove < z_part,
     "Grooves are deeper than they should be!");
 /// How much fitting room the strings should have.
-d_extra = 0.0;
+d_extra = 0.1;
 /// Diameters of the strings.
 d_strings = [0.7112, 0.8128, 1.0160, 0.7747, 0.9144, 1.1430];
 /// Widths of the grooves (with room to accommodate fitting).
-y_grooves = [for (d_string = d_strings) d_extra + d_string];
+y_grooves = [for (d_string = d_strings) d_extra + d_string / 2];
 echo(y_grooves = y_grooves);
 /// Cumulative widths of the grooves.
 y_grooves_sum = cumsum(y_grooves);
 /// Distances between the grooves.
 y_steps = rep(len(y_grooves) - 1, 9.4);
-assert(1 + len(y_steps) == len(y_grooves),
-    "Grooves are more or less numerous than they should be!");
 /// Cumulative distances between the grooves.
 y_steps_sum = cumsum(y_steps);
 /// Distance between the first (and last) groove and the edge.
