@@ -33,7 +33,7 @@ echo(y_grooves = y_grooves);
 /// Cumulative widths of the grooves.
 y_grooves_sum = cumsum(y_grooves);
 /// Distances between the grooves.
-y_steps = rep(len(y_grooves) - 1, 9.4);
+y_steps = rep(len(y_grooves) - 1, 9.8);
 /// Cumulative distances between the grooves.
 y_steps_sum = cumsum(y_steps);
 /// Distance between the first (and last) groove and the edge.

@@ -17,9 +17,9 @@ assert(z_hole < z_part,
     "Part is shorter than it should be!");
 
 /// How much shallower the grooves should be to account for wear.
-z_extra = 0.5;
+z_extra = 0.2;
 /// Depths of the grooves on the sharp edge (with room to accommodate wear).
-z_groove = 3.0 - z_extra;
+z_groove = 2.0 - z_extra;
 echo(z_groove = z_groove);
 assert(z_hole + z_groove < z_part,
     "Grooves are deeper than they should be!");
