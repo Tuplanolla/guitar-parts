@@ -1,5 +1,22 @@
 # Guitar Parts
 
+In this project, we
+
+* measured old and worn parts
+  of a classical guitar manufactured by Landola,
+* documented the measurements with hasty drawings
+  on a computer with no graphical user interface,
+* built a parametric model of the parts
+  to learn how to use OpenSCAD and
+* 3d-printed various realizations of model
+  in order to get acquainted with Prusa i3 MK3S.
+
+Since the guitar was quite wonky, we
+managed to produce better replacement parts for it
+than any of the commercially available options would have offered.
+
+## Measurements
+
 Let the `x` axis go along the neck,
 growing from the saddle towards the nut.
 Let the `y` axis go across the neck,
@@ -9,13 +26,6 @@ growing from the heel towards the fretboard.
 Let the strings be numbered from `1` to `6`,
 as the strange yet common convention suggests.
 Let the unit of measurement be `1` millimeter.
-
-We measured old and worn parts of a classical guitar,
-documented them with hasty drawings and
-based this parametric model on them.
-The goal of the project was to get acquainted with OpenSCAD and
-to manufacture better replacement parts
-than there are commercially available.
 
 We did not know which strings the guitar originally had,
 so we measured them and compared them to new
@@ -48,9 +58,9 @@ with the exception of measurements marked with
 * `+n` to indicate an uncertainty of `0.1 * 2 ^ n`
   (actually rounded up to `let x = 0.1 * 2 ^ n in
   let r = 10 ^ (floor (log10 (x))) in
-  r * ceil (x / r)`).
+  r * ceil (x / r)` in case you wanted the general formula).
 
-## Nut
+### Nut
 
 ```
               2.2+3
@@ -108,7 +118,7 @@ z   9.0 `/       `-.   `-'      /
 +--> x                    `-.'
 ```
 
-## Saddle
+### Saddle
 
 ```
                0.8+3
