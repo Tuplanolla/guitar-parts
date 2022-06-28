@@ -18,6 +18,9 @@ we managed to produce better replacement parts for it
 than any commercially available offerings.
 We did not intend the workflow to be as wonky as the guitar,
 but it turned out to be like that anyway.
+We should also note that "we" mostly refers to Sampsa Kiiskinen,
+the sole author of this project, although various members
+of Hacklab Jyväskylä were also quite helpful along the way.
 
 ## Measurements
 
