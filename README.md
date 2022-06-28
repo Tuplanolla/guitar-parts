@@ -1,3 +1,5 @@
+![Preview](preview.png)
+
 # Guitar Parts
 
 In this project, we
