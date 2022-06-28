@@ -10,12 +10,14 @@ In this project, we
   on a computer with no graphical user interface,
 * built a parametric model of the parts
   to learn how to use OpenSCAD and
-* 3d-printed various realizations of model
+* 3d-printed various realizations of the model
   in order to get acquainted with Prusa i3 MK3S.
 
-Since the guitar was quite wonky, we
-managed to produce better replacement parts for it
-than any of the commercially available options would have offered.
+Since the guitar was quite wonky,
+we managed to produce better replacement parts for it
+than any commercially available offerings.
+We did not intend the workflow to be as wonky as the guitar,
+but it turned out to be like that anyway.
 
 ## Measurements
 
