@@ -1,4 +1,4 @@
-![Cover Art](preview.png)
+![Cover Art](nutsaddle.png)
 
 # Guitar Parts
 
