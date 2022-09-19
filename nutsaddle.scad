@@ -64,6 +64,6 @@ module grooved_filleted_block(x_part, y_part, z_part,
       for (i = [0 : len(y_grooves) - 1])
         translate([0, y_edge + y_grooves_sum[i]
             + y_steps_sum[i] + y_grooves[i] / 2, - z_groove])
-          groove(z_part, y_grooves, r_grooves, i);
+        groove(z_part, y_grooves, r_grooves, i);
     }
 }

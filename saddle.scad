@@ -68,5 +68,5 @@ assert(r_anchor + r_neck < x_part && 2 * r_side < y_part,
 mirror([1, 0, 0])
   color("Ivory")
   grooved_filleted_block(x_part, y_part, z_part,
-    z_groove, y_grooves, y_steps, y_edge,
-    alpha_grooves, r_grooves, r_anchor, r_neck, r_side);
+      z_groove, y_grooves, y_steps, y_edge,
+      alpha_grooves, r_grooves, r_anchor, r_neck, r_side);
